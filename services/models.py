@@ -1,10 +1,14 @@
 import uuid
+import shortuuid
 from .choices import *
 from django.db import models
-from django.contrib.auth.models import User
-from phonenumber_field.modelfields import PhoneNumberField
 from django.dispatch import receiver
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+
+from phonenumber_field.modelfields import PhoneNumberField
+from multiselectfield import MultiSelectField
+
 # Create your models here.
 class Department(models.Model):
     department_name = models.CharField(max_length = 100)
@@ -18,14 +22,27 @@ class RecruitmentDrive(models.Model):
     start_date_time = models.DateTimeField()
     end_data_time = models.DateTimeField()
     recruitment_term = models.CharField(max_length = 500)
+    status = models.CharField(max_length = 100,choices = RECRUITMENT_STATUS)
     
     def __str__(self):
         return self.recruitment_title+'-'+self.recruitment_term
 class Application(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     recruitment_drive = models.ForeignKey(RecruitmentDrive,on_delete=models.CASCADE)
-    deparment_one = models.CharField(max_length = 100)
-    department_two = models.CharField(max_length = 200)
+    deparment_preferences = MultiSelectField(choices=DEPARTMENT_CHOICES,max_choices=2,)
+    linkedin_url = models.URLField(max_length = 200)
+    question_one = models.TextField(max_length = 400)
+    question_two = models.TextField(max_length = 400,blank = True)
+    status = models.CharField(max_length = 100,choices = STATUS_CHOICES)
+    slug = models.SlugField(blank = True)
+    date_of_application = models.DateTimeField(auto_now_add = True)
+    def save(self,*args,**kwargs):
+        if not self.slug:
+            self.slug = shortuuid.ShortUUID().random(length=10)
+        super(Application, self).save(*args,**kwargs)
+    def __str__(self):
+        return self.user.username+"-"+self.recruitment_drive.recruitment_term
+    
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     contact = PhoneNumberField(blank = True)
