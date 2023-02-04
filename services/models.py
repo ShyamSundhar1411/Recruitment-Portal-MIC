@@ -22,14 +22,14 @@ class RecruitmentDrive(models.Model):
     start_date_time = models.DateTimeField()
     end_data_time = models.DateTimeField()
     recruitment_term = models.CharField(max_length = 500)
-    status = models.CharField(max_length = 100,choices = RECRUITMENT_STATUS)
+    status = models.CharField(max_length = 100,choices = RECRUITMENT_STATUS_CHOICES)
     
     def __str__(self):
         return self.recruitment_title+'-'+self.recruitment_term
 class Application(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     recruitment_drive = models.ForeignKey(RecruitmentDrive,on_delete=models.CASCADE)
-    deparment_preferences = MultiSelectField(choices=DEPARTMENT_CHOICES,max_choices=2,)
+    deparment_preferences = MultiSelectField(choices=DEPARTMENT_CHOICES,max_choices=2,max_length = 100)
     linkedin_url = models.URLField(max_length = 200)
     question_one = models.TextField(max_length = 400)
     question_two = models.TextField(max_length = 400,blank = True)
