@@ -1,8 +1,7 @@
 DEPARTMENT_CHOICES = [
     ("Design and Content","Design and Content"),
     ("UI/UX","UI/UX"),
-    ("Public Relation and Management","Public Relation and Management"),
-    ("Marketing","Marketing"),
+    ("Management","Management"),
     ("Finance","Finance"),
     ("Sponsership","Sponsership"),
     ("Cybersecurity","Cybersecurity"),
@@ -35,6 +34,7 @@ STATUS_CHOICES = [
     ("Application under Process","Application under Process"),
     ("Shortlisted for Interview","Shortlisted for Interview"),
     ("Accepted","Accepted"),
+    ("Mentorship","Mentorship"),
     ("Rejected","Rejected"),
 ]
 RECRUITMENT_STATUS_CHOICES = [
