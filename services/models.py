@@ -20,7 +20,7 @@ class Department(models.Model):
 class RecruitmentDrive(models.Model):
     recruitment_title = models.CharField(max_length = 200)
     start_date_time = models.DateTimeField()
-    end_data_time = models.DateTimeField()
+    end_date_time = models.DateTimeField()
     recruitment_term = models.CharField(max_length = 500)
     status = models.CharField(max_length = 100,choices = RECRUITMENT_STATUS_CHOICES)
     

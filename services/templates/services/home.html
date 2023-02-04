@@ -1,6 +1,51 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class = "container">
-    <h1 class = "text-center">Hey</h1>
+{% extends 'base.html' %} {% block content %}
+{% load static %}
+<div class="container">
+  <h1 class="text-center">Recruitment Drives</h1>
+  <hr />
+  <div class="row">
+    {% if Recruitment_Drives %} {% for drive in Recruitment_Drives %}
+    <div class="col-lg-4 col-md-6">
+      <div class="card card-margin border border-dark">
+        <div class="card-body pt-4">
+          <div class="widget-49">
+            <div class="widget-49-title-wrapper">
+              <div class="widget-49-date-primary">
+                <span class="widget-49-date-day"
+                  ><img
+                    src="{% static 'candidate.png' %}" height = 45px; width = 45px;
+                /></span>
+              </div>
+              <div class="widget-49-meeting-info">
+                <span class="widget-49-pro-title">{{drive.recruitment_title}}</span>
+                <div class="row-flex">
+                  <div class="col">
+                    <span class="widget-49-meeting-time"> years</span>
+                  </div>
+                  <div class="col">
+                    <span class="widget-49-meeting-time"
+                      ><span class="badge rounded-pill bg-danger"
+                        >{{ donor.recruitment_term}}</span
+                      ></span
+                    >
+                  </div>
+                  {% if user.donor.role == 'Admin'%}
+                  <div class="col">
+                    <span class="widget-49-meeting-time"></span>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+      
+    </div>
+    {% else %}
+    <h1 class = "text-center">No Drives Found !!!</h1>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}
