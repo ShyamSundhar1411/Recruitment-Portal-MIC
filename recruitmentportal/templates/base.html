@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+  {% load static %}
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -11,6 +12,50 @@
     <title>MIC Recruitment Portal</title>
   </head>
   <body>
+    <header style = "margin-bottom:20px;">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <a
+            class="navbar-brand"
+            href="{% url 'home' %}"
+            ><img src = "{% static 'mic-logo.png' %}" height = 40px,width = 12px /> Microsoft Innovations Club</a
+          >
+          <button
+            data-bs-toggle="collapse"
+            class="navbar-toggler"
+            data-bs-target="#navcol-1"
+          >
+            <span class="visually-hidden">Toggle navigation</span
+            ><span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navcol-1">
+            <ul class="navbar-nav ms-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item dropdown">
+              
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {% if user.profile.avatar %}
+                <img src="#" alt="" width="32" height="32" class="rounded-circle me-2">
+                {% else %}
+                <img src="{% static 'default.png' %}" alt="" width="32" height="32" class="rounded-circle me-2">
+                {% endif %}
+                {{user.username}}
+              </a>
+              <ul class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="#"><i class="far fa-user-circle"></i> My Account</a></li>
+                <li><a class="dropdown-item" href="#"><i class="fas fa-book-open"></i> View All Applications</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Logout <i class="fas fa-sign-out-alt"></i></a></li>
+              </ul>
+            </li>
+            {% else %}
+            <a class = "nav-link active" data-bss-hover-animate="pulse" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
+          {% endif %}
+          </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
     <div class = "container">
         {% include 'messages.html' %}
         {% block content %}
