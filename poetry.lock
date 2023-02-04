@@ -35,6 +35,17 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
+name = "django-multiselectfield"
+version = "0.1.12"
+description = "Django multiple select field"
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+django = ">=1.4"
+
+[[package]]
 name = "django-phonenumber-field"
 version = "7.0.2"
 description = "An international phone number field for django models."
@@ -89,7 +100,7 @@ python-versions = ">=2"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "d1ffd1c6ac4bf16448b5c34db1b50f4c5b23203ce81a5ef51fa913e473b5759b"
+content-hash = "600d19d6daa8dd5c02c6627dc7bb2a679f3f16c51fb4a3fa6b2a43b052e0a6ca"
 
 [metadata.files]
 asgiref = []
@@ -98,6 +109,7 @@ django-crispy-forms = [
     {file = "django-crispy-forms-1.14.0.tar.gz", hash = "sha256:35887b8851a931374dd697207a8f56c57a9c5cb9dbf0b9fa54314da5666cea5b"},
     {file = "django_crispy_forms-1.14.0-py3-none-any.whl", hash = "sha256:bc4d2037f6de602d39c0bc452ac3029d1f5d65e88458872cc4dbc01c3a400604"},
 ]
+django-multiselectfield = []
 django-phonenumber-field = []
 phonenumbers = []
 pillow = []

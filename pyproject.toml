@@ -10,6 +10,7 @@ Django = "^4.1.6"
 Pillow = "^9.4.0"
 django-crispy-forms = "^1.14.0"
 django-phonenumber-field = {extras = ["phonenumbers"], version = "^7.0.2"}
+django-multiselectfield = "^0.1.12"
 
 [tool.poetry.dev-dependencies]
 
