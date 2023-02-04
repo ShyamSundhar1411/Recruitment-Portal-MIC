@@ -1,5 +1,4 @@
-{% extends 'base.html' %} {% block content %}
-{% load static %}
+{% extends 'base.html' %} {% block content %} {% load static %}
 <div class="container">
   <h1 class="text-center">Recruitment Drives</h1>
   <hr />
@@ -13,38 +12,47 @@
               <div class="widget-49-date-primary">
                 <span class="widget-49-date-day"
                   ><img
-                    src="{% static 'candidate.png' %}" height = 45px; width = 45px;
+                    src="{% static 'candidate.png' %}"
+                    height="45px;"
+                    width="45px;"
                 /></span>
               </div>
               <div class="widget-49-meeting-info">
-                <span class="widget-49-pro-title">{{drive.recruitment_title}}</span>
+                <span class="widget-49-pro-title"
+                  >{{drive.recruitment_title}}</span
+                >
                 <div class="row-flex">
                   <div class="col">
-                    <span class="widget-49-meeting-time"> years</span>
+                    <span class="widget-49-meeting-time">
+                      {% if drive.status == "Open" %}
+                      <span class="badge rounded-pill bg-success">Open</span>
+                      {% else %}
+                      <span class="badge rounded-pill bg-danger">Closed</span>
+                      {% endif %}
+                    </span>
                   </div>
                   <div class="col">
                     <span class="widget-49-meeting-time"
-                      ><span class="badge rounded-pill bg-danger"
-                        >{{ donor.recruitment_term}}</span
+                      ><span class="badge rounded-pill bg-success"
+                        >Term : {{ drive.recruitment_term}}</span
                       ></span
                     >
                   </div>
-                  {% if user.donor.role == 'Admin'%}
-                  <div class="col">
-                    <span class="widget-49-meeting-time"></span>
                   </div>
-                  {% endif %}
                 </div>
+              </div>
+              <div class = "widget-49-meeting-points">
+                <li style = "list-style-type:none;"><i class="fa-solid fa-calendar-days"></i>  {{drive.start_date_time|date:'dS M Y'}} - {{drive.end_date_time|date:'dS M Y'}} </li>
+                <li style = "list-style-type:none;">Closes By : {{drive.end_date_time|date:'dS M Y, h:i A'}}</li>
               </div>
             </div>
           </div>
         </div>
       </div>
       {% endfor %}
-      
     </div>
     {% else %}
-    <h1 class = "text-center">No Drives Found !!!</h1>
+    <h1 class="text-center">No Drives Found !!!</h1>
     {% endif %}
   </div>
 </div>
