@@ -32,6 +32,16 @@ def home(request):
     recruitment_drives = RecruitmentDrive.objects.all().order_by('-start_date_time')
     return render(request,'services/home.html',{"Recruitment_Drives":recruitment_drives,"Status":user_status})
 @login_required
+def delete_recruitment_drive(request,pk):
+    if request.method == "POST":
+        recruitment_drive = RecruitmentDrive.objects.get(pk=pk)
+        recruitment_drive.delete()
+        messages.success(request,"Operation Successful")
+        return redirect("home")
+    else:
+        messages.error(request,"Error Processing Request")
+        return redirect("home")
+@login_required
 def profile(request,slug):
     if request.method == 'POST':
         user_form = UserForm(request.POST,instance = request.user)
