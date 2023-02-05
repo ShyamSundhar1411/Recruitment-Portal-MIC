@@ -1,13 +1,27 @@
 from .models import *
 from .forms import *
-
+from .mixins import *
 from .aiding_functions import *
+from django.views import generic
 from django.contrib import messages
+from django.http import Http404, JsonResponse
 from django.shortcuts import render,redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.UpdateView):
+    model = RecruitmentDrive
+    fields = ["recruitment_title","recruitment_term","department","status","start_date_time","end_date_time"]
+    template_name = "services/UpdateRecruitmentDrive.html"
+    context_object_name = "recruitment_drive"
+    def get_object(self):
+        recruitment_drive = super(RecruitmentDriveUpdateView,self).get_object()
+        if not is_authorized(self.request.user) :
+            raise Http404
+        return recruitment_drive
+#Funciton Based Views
 def home(request):
     user_status = is_authorized(request.user)
     recruitment_drives = RecruitmentDrive.objects.all().order_by('-start_date_time')
@@ -21,7 +35,7 @@ def profile(request,slug):
             if request.user.profile.department == None:
                 profile_form_copy = profile_form.save(commit = False)
                 if email_checker(request.user.email):
-                    profile_form_copy.role = 'Student'
+                    profile_form_copy.role = 'Applicant'
                     department = Department.objects.get(department_id = department_finder(request.user.last_name))
                     admitted_year = admitted_year_finder(request.user.last_name)
                     profile_form_copy.department = department
@@ -35,7 +49,7 @@ def profile(request,slug):
                 user_form.save()
                 profile_form.save()
             messages.success(request,'Profile Updated Successfully')
-            return redirect('profile',slug = request.user.profile.slug)
+            return redirect('home')
         else:
             return render(request, 'account/profile.html', {'user_form':user_form,'profile_form':profile_form,'user_form_errors':user_form.errors,'profile_form_errors':profile_form.errors})
     else:
