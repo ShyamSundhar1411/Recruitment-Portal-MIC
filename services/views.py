@@ -85,6 +85,9 @@ def submit_application(request,slug):
     if Application.objects.filter(user = request.user,recruitment_drive = recruitment_drive).exists():
         messages.info(request,"You have already queued an application for this recruitment drive. Kindly Wait till your application is reviewed.")
         return redirect("home")
+    if request.user.profile.role == "Unauthorized" or request.user.profile.contact == "None":
+        messages.info(request,"Verify your account by adding in your contact.")
+        return redirect("profile",request.user.profile.slug) 
     if request.method == "POST":
         recruitment_form = RecruitmentForm(request.POST)
         if recruitment_form.is_valid():
@@ -152,6 +155,7 @@ def profile(request,slug):
         return render(request,'account/profile.html',{'user_form':user_form,'profile_form':profile_form})
 
 @login_required
+@user_passes_test(lambda user:is_authorized(user))
 def generate_csv(request):
     application_resource = ApplicationResource()
     queryset = [Application.objects.get(id=id) for id in request.session['query_set']]
@@ -159,6 +163,8 @@ def generate_csv(request):
     response = HttpResponse(dataset.csv, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="applications{}.csv"'.format(datetime.datetime.now())
     return response
+def handler_not_found(request,exception):
+    return render(request,'services/404.html')
 @login_required
 @user_passes_test(lambda user:is_authorized(user))
 def update_application_status(request,slug,pk):
