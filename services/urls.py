@@ -12,4 +12,5 @@ urlpatterns = [
     #Application
     path('application/<slug:slug>/recruitment/term/',views.submit_application,name = "submit_application"),
     path('application/<slug:slug>/preview/',views.preview_application,name = "preview_application"),
+    path('application/<slug:slug>/edit/',views.ApplicationUpdateView.as_view(),name = "update_application")
 ]

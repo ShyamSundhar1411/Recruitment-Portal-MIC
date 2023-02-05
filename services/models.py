@@ -49,7 +49,8 @@ class Application(models.Model):
         super(Application, self).save(*args,**kwargs)
     def __str__(self):
         return self.user.username+"-"+self.recruitment_drive.recruitment_term
-    
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     contact = PhoneNumberField(blank = True)
