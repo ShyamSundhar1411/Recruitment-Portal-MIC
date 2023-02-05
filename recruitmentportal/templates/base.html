@@ -1,70 +1,137 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   {% load static %}
   <head>
+    <link rel='shortcut icon' type='image/x-icon' href="{% static 'favicon.ico' %}" />
     <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Font Awesome -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- MDB -->
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.css"
+      rel="stylesheet"
+    />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link href="{% static 'bootstrap.min.css' %}" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link href="{% static 'styles.css' %}" rel="stylesheet" />
-    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" />
+    <link
+      href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+
+    <link href="{% static 'assets/css/variables.css' %}" rel="stylesheet" />
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
     <title>MIC Recruitment Portal</title>
   </head>
   <body>
-    <header style = "margin-bottom:20px;">
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-          <a
-            class="navbar-brand"
-            href="{% url 'home' %}"
-            ><img src = "{% static 'mic-logo.png' %}" height = 40px,width = 12px /> Microsoft Innovations Club</a
-          >
-          <button
-            data-bs-toggle="collapse"
-            class="navbar-toggler"
-            data-bs-target="#navcol-1"
-          >
-            <span class="visually-hidden">Toggle navigation</span
-            ><span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navcol-1">
-            <ul class="navbar-nav ms-auto">
-            {% if user.is_authenticated %}
-            <li class="nav-item dropdown">
-              
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {% if user.profile.avatar %}
-                <img src="#" alt="" width="32" height="32" class="rounded-circle me-2">
-                {% else %}
-                <img src="{% static 'default.png' %}" alt="" width="32" height="32" class="rounded-circle me-2">
+    <header id="header">
+        <div class = "container">
+            <nav class="navbar navbar-expand-lg navbar-light" style = "box-shadow:none;">
+                <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                  <img src="{% static 'mic-logo.png' %}" alt="" width="30" height="30"\>Microsoft Innovations Club</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navcol-1">
+                  <ul class="navbar-nav ms-auto">
+                  {% if user.is_authenticated %}
+                  <li class="nav-item dropdown">
+                    
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      {% if user.profile.avatar %}
+                      <img src="#" alt="" width="32" height="32" class="rounded-circle me-2">
+                      {% else %}
+                      <img src="{% static 'default.png' %}" alt="" width="32" height="32" class="rounded-circle me-2">
+                      {% endif %}
+                      {{user.username}}
+                    </a>
+                    <ul class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="{% url 'profile' request.user.profile.slug %}"><i class="far fa-user-circle"></i> My Account</a></li>
+                      {% if not user.profile.role == "Applicant" and not user.profile.role == "Unauthorized" %}
+                      <li><a class="dropdown-item" href="{% url 'view_all_applications' %}"><i class="fas fa-book-open"></i> View All Applications</a></li>
+                      {% endif %}
+                      <li><hr class="dropdown-divider"></li>
+                      <li><a class="dropdown-item" href="{% url 'logout' %}">Logout <i class="fas fa-sign-out-alt"></i></a></li>
+                    </ul>
+                  </li>
+                  {% else %}
+                  <a class = "nav-link active" data-bss-hover-animate="pulse" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
                 {% endif %}
-                {{user.username}}
-              </a>
-              <ul class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="{% url 'profile' request.user.profile.slug %}"><i class="far fa-user-circle"></i> My Account</a></li>
-                {% if not user.profile.role == "Applicant" and not user.profile.role == "Unauthorized" %}
-                <li><a class="dropdown-item" href="{% url 'view_all_applications' %}"><i class="fas fa-book-open"></i> View All Applications</a></li>
-                {% endif %}
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="{% url 'logout' %}">Logout <i class="fas fa-sign-out-alt"></i></a></li>
-              </ul>
-            </li>
-            {% else %}
-            <a class = "nav-link active" data-bss-hover-animate="pulse" href="{% url 'social:begin' 'google-oauth2' %}">Login</a>
-          {% endif %}
-          </ul>
-          </div>
+                </ul>
+                </div>
+            </nav>
         </div>
-      </nav>
+      
     </header>
-    <div class = "container">
-        {% include 'messages.html' %}
-        {% block content %}
-        {% endblock %}
+    <div class="container">
+      {% include 'messages.html' %} {% block content %} {% endblock %}
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>   
+    <footer class="py-3 my-4">
+      <p class="text-center text-muted">© {% now 'Y' %} MIC</p>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <!-- MDB -->
+    <script
+      type="text/javascript"
+      src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"
+    ></script>
+    <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+    <!-- Template Main JS File -->
+    <script src="{% static 'assets/js/main.js' %}"></script>
   </body>
 </html>

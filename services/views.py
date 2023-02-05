@@ -75,7 +75,7 @@ def home(request):
     # print(today)
     
     recruitment_drives = RecruitmentDrive.objects.all().order_by('-start_date_time')
-    applications = Application.objects.all().order_by('-date_of_application')
+    applications = Application.objects.filter(user = request.user).order_by('-date_of_application')
     return render(request,'services/home.html',{"Recruitment_Drives":recruitment_drives,"Status":user_status,"Applications":applications,})
 @login_required
 def submit_application(request,slug):
@@ -103,6 +103,7 @@ def submit_application(request,slug):
 @user_passes_test(lambda user:is_authorized(user))
 def view_all_applications(request):
     applications = ApplicationFilter(request.GET,queryset = Application.objects.all())
+    request.session['query_set'] = [application.id for application in applications.qs]
     return render(request,'services/view_all_applications.html',{"filterer":applications})
 @login_required
 @user_passes_test(lambda user:is_authorized(user))
@@ -153,8 +154,9 @@ def profile(request,slug):
 @login_required
 def generate_csv(request):
     application_resource = ApplicationResource()
-    dataset = application_resource.export()
+    queryset = [Application.objects.get(id=id) for id in request.session['query_set']]
+    dataset = application_resource.export(queryset)
     response = HttpResponse(dataset.csv, content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="applications.csv"'
+    response['Content-Disposition'] = 'attachment; filename="applications{}.csv"'.format(datetime.datetime.now())
     return response
     
