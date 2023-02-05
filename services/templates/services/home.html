@@ -109,7 +109,9 @@
                 <div class = "d-inline-block py-2" style = {"margin:5px;"}>
                   {% now "Y-m-dHi" as todays_date %}
                   {% if application.recruitment_drive.end_date_time|date:'Y-m-dHi' > todays_date %}
-                    <a href = "{% url 'update_application' application.slug %}" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                    {% if application.user == user %}
+                      <a href = "{% url 'update_application' application.slug %}" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                    {% endif %}
                   {% endif %}
                 </div>
               </div>  
@@ -168,6 +170,7 @@
               </div>
               <div class = "d-inline-block py-2" style = {"margin:5px;"}>
                 {% if Status %}
+                  
                   <a href = "{% url 'update_recruitment' drive.id %}" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                 {% endif %}
                   {% if drive.status == "Closed" %}

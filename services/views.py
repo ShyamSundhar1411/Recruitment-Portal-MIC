@@ -72,8 +72,6 @@ def landing_page(request):
 def home(request):
     user_status = is_authorized(request.user)
     today = datetime.datetime.now()
-    # print(today)
-    
     recruitment_drives = RecruitmentDrive.objects.all().order_by('-start_date_time')
     applications = Application.objects.filter(user = request.user).order_by('-date_of_application')
     return render(request,'services/home.html',{"Recruitment_Drives":recruitment_drives,"Status":user_status,"Applications":applications,})
@@ -104,7 +102,7 @@ def submit_application(request,slug):
 def view_all_applications(request):
     applications = ApplicationFilter(request.GET,queryset = Application.objects.all())
     request.session['query_set'] = [application.id for application in applications.qs]
-    return render(request,'services/view_all_applications.html',{"filterer":applications})
+    return render(request,'services/view_all_applications.html',{"filterer":applications,"form_choices":FORM_STATUS_CHOICES})
 @login_required
 @user_passes_test(lambda user:is_authorized(user))
 def delete_recruitment_drive(request,pk,slug):
@@ -116,6 +114,7 @@ def delete_recruitment_drive(request,pk,slug):
     else:
         messages.error(request,"Error Processing Request")
         return redirect("home")
+
 @login_required
 def preview_application(request,slug):
     application = Application.objects.get(slug = slug,user = request.user)
@@ -159,4 +158,13 @@ def generate_csv(request):
     response = HttpResponse(dataset.csv, content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="applications{}.csv"'.format(datetime.datetime.now())
     return response
-    
+@login_required
+@user_passes_test(lambda user:is_authorized(user))
+def update_application_status(request,slug,pk):
+    application = Application.objects.get(slug = slug,pk = pk)
+    if request.method == "POST":
+        status = request.POST['status_selector']
+        application.status = str(status)
+        application.save()
+        messages.success(request,"Successfully Updated Status of application {}".format(application.slug))
+        return redirect("view_all_applications")

@@ -15,7 +15,6 @@
                 <div class = "col">
                     {{filterer.form.date_of_application|as_crispy_field}}
                 </div>
-                
             </div>
             <div class = "row">
                 <div class = "col">
@@ -156,7 +155,20 @@
                         </div>
                       </div>  
                     </div>
-                    
+                    <div class = "d-inline-block py-2">
+                      <form method = "POST" action = {% url 'update_application_status' application.slug application.id %}>
+                        {% csrf_token %}
+                        <div class="input-group">
+                          <select class="form-select" name = "status_selector" id="inputGroupSelect04{{application.slug}}" aria-label="Example select with button addon">
+                            <option selected>Choose</option>
+                            {% for choice in form_choices %}
+                            <option value="{{choice}}">{{choice}}</option>
+                            {% endfor %}
+                          </select>
+                          <button class="btn btn-outline-primary" type="submit">Update Status</button>
+                        </div>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>

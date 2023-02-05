@@ -50,6 +50,13 @@ STATUS_CHOICES = [
     ("Mentorship","Mentorship"),
     ("Rejected","Rejected"),
 ]
+FORM_STATUS_CHOICES = [
+    "Application under Review",
+    "Shortlisted for Interview",
+    "Accepted",
+    "Mentorship",
+    "Rejected",
+]
 RECRUITMENT_STATUS_CHOICES = [
     ("Open","Open"),
     ("Closed","Closed")
