@@ -2,7 +2,7 @@ from django.urls import path,include
 from services import views
 
 urlpatterns = [
-    # path('',views.home,name = "home"),
+    path('',views.home,name = "home",),
     path('profile/<slug:slug>/view',views.profile,name = "profile"),
     
     #Recruitment Drive
@@ -17,4 +17,5 @@ urlpatterns = [
     path('application/<slug:slug>/preview/',views.preview_application,name = "preview_application"),
     path('application/<slug:slug>/edit/',views.ApplicationUpdateView.as_view(),name = "update_application"),
     path('mic/view/applications/all',views.view_all_applications,name = "view_all_applications"),
+    path('export/application/csv',views.generate_csv,name = "generate_csv"),
 ]

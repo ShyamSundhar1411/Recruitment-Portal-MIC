@@ -27,8 +27,8 @@ class ApplicationFilter(django_filters.FilterSet):
             },
         ),
     )
-    department_preferences = django_filters.MultipleChoiceFilter(choices = DEPARTMENT_CHOICES)
     date_of_application = DateRangeFilter()
+    department_preferences = django_filters.CharFilter(lookup_expr="icontains")
     recruitment_drive = django_filters.ModelChoiceFilter(queryset = RecruitmentDrive.objects.all()),
     class Meta:
         model = Application

@@ -9,7 +9,7 @@ class RecruitmentForm(forms.ModelForm):
     tags = TagField(label = "Skills",help_text = "Add Skills as comma seperated Values")
     class Meta:
         model = Application
-        fields = ['department_preferences','linkedin_url','tags','question_one','question_two']
+        fields = ['department_preferences','linkedin_url','tags','question_one','question_two','instagram_id']
         widgets = {
             'tags' :TagWidget(attrs={'data-role':'tagsinput','placeholder':'Add Tags','class':'form-control'})
         }

@@ -9,9 +9,12 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
+import environ
 import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -47,8 +50,8 @@ INSTALLED_APPS = [
     'phonenumber_field',
     'import_export',
     'taggit',
-    'django_filters'
-    
+    'django_filters',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -151,3 +154,34 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTHENTICATION_BACKENDS = {
+    #Default Auth_Backend
+    'django.contrib.auth.backends.ModelBackend',
+    #Social Account
+    'social_core.backends.google.GoogleOAuth2',
+}
+SOCIAL_AUTH_PIPELINE = [
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.mail.mail_validation',
+    'social_core.pipeline.social_auth.associate_by_email',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+]
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = env.str('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = env.str('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+    'profile',
+    'email',
+]
+AUTH_EXTRA_ARGUMENTS = {'hd': 'vitstudent.ac.in'}
+SITE_ID = 1
+LOGIN_REDIRECT_URL = 'landing_page'
+LOGOUT_REDIRECT_URL = 'landing_page'
+LOGIN_URL = 'landing_page'
+LOGOUT_URL = 'logout'

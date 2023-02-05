@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 {% load crispy_forms_tags %}
 <div class = "container">
     <h1 class = "text-center">Manage Applications</h1>
@@ -33,5 +34,140 @@
             </div>
         </form>
     </div>
+    <div class = "container">
+        <h1 class = "text-center" >Applications</h1>
+        <hr/>
+        <ul class="list-group">
+            {% if filterer.qs %}
+            <div class = "row">
+            {% for application in filterer.qs %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card card-margin border border-dark">
+                  <div class="card-body pt-4">
+                    <div class="widget-49">
+                      <div class="widget-49-title-wrapper">
+                        <div class="widget-49-date-primary">
+                          <span class="widget-49-date-day"
+                            ><img
+                              src="{% static 'candidate.png' %}"
+                              height="45px;"
+                              width="45px;"
+                          /></span>
+                        </div>
+                        <div class="widget-49-meeting-info">
+                          <span class="widget-49-pro-title"
+                            >{{application.user.username}}</span
+                          >
+                          <div class="row-flex">
+                            <div class="col">
+                              <span class="widget-49-meeting-time" style = "color:black;">
+                                <span class="badge rounded-pill bg-success"
+                                  >Contact : {{application.user.profile.contact}}</span
+                                ></a>
+                                
+                              </span>
+                            </div>
+                            <div class="col">
+                              <span class="widget-49-meeting-time"
+                                ><span class="badge rounded-pill bg-success"
+                                  >Email : {{ application.user.email}}</span
+                                ></span
+                              >
+                            </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class = "widget-49-meeting-points">
+                          <li style = "list-style-type:none;">
+                            Application Status : 
+                            {% if application.status == "Application under Review" %}
+                              <span class="badge rounded-pill bg-primary">Under Review</span>
+                            {% elif application.status == "Shortlisted for Interview" %}
+                              <span class="badge rounded-pill bg-info">Shortlisted for Interview</span>
+                            {% elif application.status == "Accepted" %}
+                            <span class="badge rounded-pill bg-success">Accepted</span>
+                            {% elif application.status == "Mentorship" %}
+                            <span class="badge rounded-pill bg-success">Mentorship</span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-danger">Rejected</span>
+                            {% endif %}
+                          </li>
+                        </div>
+                      </div>
+                      <div class = "widget-49-meeting-points">
+                        <div style="margin-top: 10px; margin-bottom: 10px">
+                          <div class="accordion accordion-flush" id="accordionFlushExample{{application.slug}}">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="flush-headingOne{{application.slug}}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne{{application.slug}}" aria-expanded="false" aria-controls="flush-collapseOne{{application.slug}}">
+                                  Skills and Preferences
+                                </button>
+                              </h2>
+                              <div id="flush-collapseOne{{application.slug}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne{{application.slug}}" data-bs-parent="#accordionFlushExample{{application.slug}}">
+                                <div class="accordion-body">
+                                  <p style = "margin-bottom:2px;">Skills</p>{% for tag in application.tags.all %}
+                                  <div class="d-inline-block" style="margin-bottom: 5px">
+                                    <span class="badge bg-success">{{tag}}</span>
+                                  </div>
+        
+                                  {% endfor %}
+                                
+                                  <p style = "margin-bottom:2px;">Department Preferences</p>
+                                  {% for department in application.department_preferences %}
+                                  <div class="d-inline-block" style="margin-bottom: 5px">
+                                    <span class="badge bg-success">{{department}}</span>
+                                  </div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="flush-headingTwo{{application.slug}}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo{{application.slug}}" aria-expanded="false" aria-controls="flush-collapseTwo{{application.slug}}">
+                                  Question Responses
+                                </button>
+                              </h2>
+                              <div id="flush-collapseTwo{{application.slug}}" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo{{application.slug}}" data-bs-parent="#accordionFlushExample{{application.slug}}">
+                                <div class="accordion-body">
+                                  <p style = "margin-bottom:2px;">Question One</p>
+                                  <p>{{application.question_one}}</p>
+                                  {% if application.question_two %}
+                                  <p style = "margin-bottom:2px;">Question two</p>
+                                  <p>{{application.question_two}}</p>
+                                  {% endif %}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingthree{{application.slug}}">
+                                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapsethree{{application.slug}}" aria-expanded="false" aria-controls="flush-collapsethree{{application.slug}}">
+                                    Contact
+                                  </button>
+                                </h2>
+                                <div id="flush-collapsethree{{application.slug}}" class="accordion-collapse collapse" aria-labelledby="flush-headingthree{{application.slug}}" data-bs-parent="#accordionFlushExample{{application.slug}}">
+                                  <div class="accordion-body">
+                                    <li style = "list-style-type:none;"><a href = "https://wa.me/{{application.user.profile.contact|cut:' '}}" style = "color:black;text-decoration:none;" target = _blank><i class="fa-brands fa-whatsapp"></i> Whatsapp</a></li>
+                                    <li style = "list-style-type:none;"><a href = "mailto:{{application.user.email}}" style = "color:black;text-decoration:none;" target = _blank><i class="fa-solid fa-envelope"></i> Mail</a></li>
+                                    <li style = "list-style-type:none;"><a href = "{{application.linkedin_url}}" style = "color:black;text-decoration:none;" target = _blank><i class="fa-brands fa-linkedin"></i> Linkedin</a></li>
+                                  </div>
+                                </div>
+                              </div>
+                          </div>
+                        </div>
+                      </div>  
+                    </div>
+                    
+                  </div>
+                </div>
+            {% endfor %}
+            </div>
+            {% else %}
+                <h1 class = "text-center">No Results Found !!!</h1>
+            {% endif %}
+        </ul>
+    </div>
+    <div class = "d-inline-block py-2" style = "margin-top:20px;margin-bottom:10px;">
+        <a href = "{% url 'home' %}" class = "btn btn-primary" data-bss-hover-animate="pulse" style = "margin-bottom:10px;margin-left:10px;"><i class="fa-solid fa-house-user"></i> Dashboard</a>
+    </div>
+    <a href = "{% url 'generate_csv' %}">Generate</a>
 </div>
 {% endblock %}

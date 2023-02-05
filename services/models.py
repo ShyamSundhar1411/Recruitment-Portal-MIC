@@ -37,6 +37,8 @@ class Application(models.Model):
     recruitment_drive = models.ForeignKey(RecruitmentDrive,on_delete=models.CASCADE)
     department_preferences = MultiSelectField(choices=DEPARTMENT_CHOICES,max_choices=2,max_length = 100)
     linkedin_url = models.URLField(max_length = 200)
+    instagram_id = models.CharField(max_length = 100)
+    lookup_skills = models.CharField(max_length = 400)
     question_one = models.TextField(max_length = 400)
     question_two = models.TextField(max_length = 400,blank = True)
     status = models.CharField(max_length = 100,choices = STATUS_CHOICES)

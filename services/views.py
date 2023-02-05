@@ -1,14 +1,15 @@
+import datetime
 from .models import *
 from .forms import *
 from .mixins import *
 from .filters import *
-import datetime
+from .resources import *
 from dal import autocomplete
 from taggit.models import Tag
 from .aiding_functions import *
 from django.views import generic
 from django.contrib import messages
-from django.http import Http404, JsonResponse
+from django.http import Http404, JsonResponse,HttpResponse
 from django.shortcuts import render,redirect,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -63,6 +64,11 @@ class ApplicationUpdateView(LoginRequiredMixin,generic.UpdateView):
         messages.success(self.request,'Updated Successfully')
         return reverse("update_application", kwargs={"slug": slug})
 #Funciton Based Views
+def landing_page(request):
+    if request.user.is_authenticated:
+        return redirect("home")
+    return render(request,"services/landing_page.html")
+@login_required
 def home(request):
     user_status = is_authorized(request.user)
     today = datetime.datetime.now()
@@ -83,6 +89,7 @@ def submit_application(request,slug):
             recruitment = recruitment_form.save(commit=False)
             recruitment.user = request.user
             recruitment.status = "Application under Review"
+            recruitment.lookup_skills = list_to_string_converter(recruitment_form.cleaned_data['tags'])
             recruitment.recruitment_drive = recruitment_drive
             recruitment.save()
             recruitment_form.save_m2m()
@@ -142,3 +149,12 @@ def profile(request,slug):
         user_form = UserForm(instance = request.user)
         profile_form = ProfileForm(instance = request.user.profile)
         return render(request,'account/profile.html',{'user_form':user_form,'profile_form':profile_form})
+
+@login_required
+def generate_csv(request):
+    application_resource = ApplicationResource()
+    dataset = application_resource.export()
+    response = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="applications.csv"'
+    return response
+    

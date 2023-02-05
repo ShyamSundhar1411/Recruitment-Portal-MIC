@@ -26,3 +26,11 @@ def is_authorized(user):
     if user.profile.role == "President" or user.profile.role == "Vice President" or user.profile.role == "Head/Lead":
         status = True
     return status
+def list_to_string_converter(given_list):
+    string = ""
+    for i in range(len(given_list)):
+        if i == len(given_list)-1:
+            string+=given_list[i]
+        else:
+            string+=given_list[i]+','
+    return string
