@@ -23,7 +23,7 @@ def email_parser(email):
 
 def is_authorized(user):
     status = False
-    if user.profile.role == "President" or user.profile.role == "Vice President" or user.profile.role == "Head/Lead":
+    if user.profile.role == "President" or user.profile.role == "Vice President" or user.profile.role == "Head/Lead" or user.profile.role == "Secretary" or user.profile.role == "Joint General Secretary" or user.profile.role == "Advisory":
         status = True
     return status
 def list_to_string_converter(given_list):

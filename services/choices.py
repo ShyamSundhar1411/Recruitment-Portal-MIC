@@ -27,6 +27,9 @@ ROLE_CHOICES = [
     ("Head/Lead","Head/Lead"),
     ("President","President"),
     ("Vice President","Vice President"),
+    ("Secretary","Secretary"),
+    ("Joint General Secretary","Joint General Security"),
+    ("Advisory","Advisory"),
     ("Unauthorized","Unauthorized"),
 ]
 SCHOOL_CHOICES = [

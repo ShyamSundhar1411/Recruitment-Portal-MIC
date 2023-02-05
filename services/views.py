@@ -1,4 +1,5 @@
 import datetime
+from .tasks import *
 from .models import *
 from .forms import *
 from .mixins import *
@@ -72,6 +73,9 @@ def landing_page(request):
 def home(request):
     user_status = is_authorized(request.user)
     today = datetime.datetime.now()
+    if request.user.profile.role == "Unauthorized" or request.user.profile.contact == "None":
+        messages.info(request,"Verify your account by adding in your contact.")
+        return redirect("profile",request.user.profile.slug)
     recruitment_drives = RecruitmentDrive.objects.all().order_by('-start_date_time')
     applications = Application.objects.filter(user = request.user).order_by('-date_of_application')
     return render(request,'services/home.html',{"Recruitment_Drives":recruitment_drives,"Status":user_status,"Applications":applications,})
@@ -91,6 +95,7 @@ def submit_application(request,slug):
             recruitment.recruitment_drive = recruitment_drive
             recruitment.save()
             recruitment_form.save_m2m()
+            application_confirmation_mail(request.user)
             messages.success(request,"Successfully submitted Application. You will be notified about the status soon")
             return redirect("home")
         else:
@@ -159,8 +164,16 @@ def generate_csv(request):
 def update_application_status(request,slug,pk):
     application = Application.objects.get(slug = slug,pk = pk)
     if request.method == "POST":
-        status = request.POST['status_selector']
-        application.status = str(status)
+        status = str(request.POST['status_selector'])
+        application.status = status
         application.save()
+        if status == "Shortlisted for Interview":
+            shortlist_mail(application.user)
+        elif status == "Accepted":
+            acceptance_mail(application.user)
+        elif status == "Mentorship":
+            mentorship_mail(application.user)
+        else:
+            pass
         messages.success(request,"Successfully Updated Status of application {}".format(application.slug))
         return redirect("view_all_applications")
