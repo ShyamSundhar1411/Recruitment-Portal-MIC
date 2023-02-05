@@ -7,5 +7,8 @@ urlpatterns = [
     
     #Recruitment Drive
     path('update/<int:pk>/recruitment/drive',views.RecruitmentDriveUpdateView.as_view(),name = "update_recruitment"),
-    path('delete/<int:pk>/recruitment/drive',views.delete_recruitment_drive,name = "delete_recruitment_drive"),
+    path('delete/<int:pk>/recruitment/drive/<slug:slug>',views.delete_recruitment_drive,name = "delete_recruitment_drive"),
+    
+    #Application
+    path('application/<slug:slug>/recruitment/term',views.submit_application,name = "submit_application"),
 ]

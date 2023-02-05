@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.http import Http404, JsonResponse
 from django.shortcuts import render,redirect,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required,user_passes_test
 
 
 # Create your views here.
@@ -27,14 +27,34 @@ class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.U
         messages.success(self.request,'Updated Successfully')
         return reverse("update_recruitment", kwargs={"pk": pk})
 #Funciton Based Views
+
 def home(request):
     user_status = is_authorized(request.user)
     recruitment_drives = RecruitmentDrive.objects.all().order_by('-start_date_time')
     return render(request,'services/home.html',{"Recruitment_Drives":recruitment_drives,"Status":user_status})
 @login_required
-def delete_recruitment_drive(request,pk):
+def submit_application(request,slug):
+    recruitment_drive = RecruitmentDrive.objects.get(slug = slug)
     if request.method == "POST":
-        recruitment_drive = RecruitmentDrive.objects.get(pk=pk)
+        recruitment_form = RecruitmentForm(request.POST)
+        if recruitment_form.is_valid():
+            recruitment = recruitment_form.save(commit=False)
+            recruitment.user = request.user
+            recruitment.status = "Application under Review"
+            recruitment.recruitment_drive = recruitment_drive
+            recruitment.save()
+            recruitment_form.save_m2m()
+            messages.success(request,"Successfully submitted Application. You will be notified about the status soon")
+            return redirect("home")
+        else:
+            return render(request,"services/recruitment_application.html",{"form":recruitment_form,"hostride_form_errors":recruitment_form.errors,"drive":recruitment_drive})
+    else:
+        return render(request,"services/recruitment_application.html",{"form":RecruitmentForm(),"drive":recruitment_drive})
+@login_required
+@user_passes_test(lambda user:is_authorized(user))
+def delete_recruitment_drive(request,pk,slug):
+    if request.method == "POST":
+        recruitment_drive = RecruitmentDrive.objects.get(pk=pk,slug = slug)
         recruitment_drive.delete()
         messages.success(request,"Operation Successful")
         return redirect("home")

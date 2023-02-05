@@ -2,8 +2,17 @@ from . models import *
 from django import forms
 from django.contrib.auth.models import User
 from phonenumber_field.formfields import PhoneNumberField
-
-
+from taggit.forms import *
+class RecruitmentForm(forms.ModelForm):
+    question_one = forms.CharField(label = "Why do you want to apply for MIC ?",widget = forms.Textarea)
+    question_two = forms.CharField(label = "How did you hear about MIC ?",required = False,widget = forms.Textarea)
+    tags = TagField(label = "Skills",help_text = "Add Skills as comma seperated Values")
+    class Meta:
+        model = Application
+        fields = ['department_preferences','linkedin_url','tags','question_one','question_two']
+        widgets = {
+            'tags' :TagWidget(attrs={'data-role':'tagsinput','placeholder':'Add Tags','class':'form-control'})
+        }
 class UserForm(forms.ModelForm):
     username = forms.CharField(disabled=True)
     email = forms.CharField(disabled=True)

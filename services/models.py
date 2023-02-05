@@ -3,11 +3,12 @@ import shortuuid
 from .choices import *
 from django.db import models
 from django.dispatch import receiver
+from taggit.managers import TaggableManager
 from django.contrib.auth.models import User
-from django.db.models.signals import post_save
-
-from phonenumber_field.modelfields import PhoneNumberField
 from multiselectfield import MultiSelectField
+from django.db.models.signals import post_save
+from phonenumber_field.modelfields import PhoneNumberField
+
 
 # Create your models here.
 class Department(models.Model):
@@ -24,17 +25,22 @@ class RecruitmentDrive(models.Model):
     recruitment_term = models.CharField(max_length = 500)
     status = models.CharField(max_length = 100,choices = RECRUITMENT_STATUS_CHOICES)
     department = models.CharField(max_length = 100,choices = DRIVE_DEPARTMENT_CHOICES,default = "All")
-    
+    slug = models.SlugField(blank = True)
     def __str__(self):
         return self.recruitment_title+'-'+self.department
+    def save(self,*args,**kwargs):
+        if not self.slug:
+            self.slug = uuid.uuid4()
+        super(RecruitmentDrive, self).save(*args,**kwargs)
 class Application(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     recruitment_drive = models.ForeignKey(RecruitmentDrive,on_delete=models.CASCADE)
-    deparment_preferences = MultiSelectField(choices=DEPARTMENT_CHOICES,max_choices=2,max_length = 100)
+    department_preferences = MultiSelectField(choices=DEPARTMENT_CHOICES,max_choices=2,max_length = 100)
     linkedin_url = models.URLField(max_length = 200)
     question_one = models.TextField(max_length = 400)
     question_two = models.TextField(max_length = 400,blank = True)
     status = models.CharField(max_length = 100,choices = STATUS_CHOICES)
+    tags = TaggableManager()
     slug = models.SlugField(blank = True)
     date_of_application = models.DateTimeField(auto_now_add = True)
     def save(self,*args,**kwargs):

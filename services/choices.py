@@ -44,7 +44,7 @@ SCHOOL_CHOICES = [
     ('Unauthorized','Unauthorized'),
 ]
 STATUS_CHOICES = [
-    ("Application under Process","Application under Process"),
+    ("Application under Review","Application under Review"),
     ("Shortlisted for Interview","Shortlisted for Interview"),
     ("Accepted","Accepted"),
     ("Mentorship","Mentorship"),

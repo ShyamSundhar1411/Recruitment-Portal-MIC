@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'multiselectfield',
     'phonenumber_field',
-    'import_export'
+    'import_export',
+    'taggit'
     
 ]
 

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class = "container">
+    <h1 class = "text-center">{{drive.recruitment_title}}</h1>
+    <hr/>
+    <form method = "POST" enctype = "multipart/form-data">
+        {% csrf_token %}
+        {{form|crispy}}
+        <div class = "d-inline-block py-2">
+            <button type = "submit" class = "btn btn-success">Submit</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
