@@ -14,7 +14,6 @@ urlpatterns = [
     path('tags/autocomplete/',views.TagsAutoComplete.as_view(),name = "tags_autocomplete"),
     #Application
     path('application/<slug:slug>/recruitment/term/',views.submit_application,name = "submit_application"),
-    path('application/<slug:slug>/preview/',views.preview_application,name = "preview_application"),
     path('application/<slug:slug>/edit/',views.ApplicationUpdateView.as_view(),name = "update_application"),
     path('mic/view/applications/all',views.view_all_applications,name = "view_all_applications"),
     path('export/application/csv',views.generate_csv,name = "generate_csv"),

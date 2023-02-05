@@ -116,10 +116,6 @@ def delete_recruitment_drive(request,pk,slug):
         return redirect("home")
 
 @login_required
-def preview_application(request,slug):
-    application = Application.objects.get(slug = slug,user = request.user)
-    return render(request,"services/preview_application.html",{"application":application})
-@login_required
 def profile(request,slug):
     if request.method == 'POST':
         user_form = UserForm(request.POST,instance = request.user)
