@@ -31,11 +31,12 @@ class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.U
 def home(request):
     user_status = is_authorized(request.user)
     recruitment_drives = RecruitmentDrive.objects.all().order_by('-start_date_time')
-    return render(request,'services/home.html',{"Recruitment_Drives":recruitment_drives,"Status":user_status})
+    applications = Application.objects.all().order_by('-date_of_application')
+    return render(request,'services/home.html',{"Recruitment_Drives":recruitment_drives,"Status":user_status,"Applications":applications})
 @login_required
 def submit_application(request,slug):
     recruitment_drive = RecruitmentDrive.objects.get(slug = slug)
-    if Application.objects.filter(user = request.user,recruitment_drive = recruitment_drive).exists:
+    if Application.objects.filter(user = request.user,recruitment_drive = recruitment_drive).exists():
         messages.info(request,"You have already queued an application for this recruitment drive. Kindly Wait till your application is reviewed.")
         return redirect("home")
     if request.method == "POST":

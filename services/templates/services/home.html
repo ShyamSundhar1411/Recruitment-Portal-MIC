@@ -1,5 +1,77 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
 <div class="container">
+  {% if Applications%}
+    <h1 class = "text-center">Your Applications</h1>
+    <hr/>
+    <div class = "row">
+      {% for application in Applications %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card card-margin border border-dark">
+          <div class="card-body pt-4">
+            <div class="widget-49">
+              <div class="widget-49-title-wrapper">
+                <div class="widget-49-date-primary">
+                  <span class="widget-49-date-day"
+                    ><img
+                      src="{% static 'candidate.png' %}"
+                      height="45px;"
+                      width="45px;"
+                  /></span>
+                </div>
+                <div class="widget-49-meeting-info">
+                  <span class="widget-49-pro-title"
+                    >{{application.recruitment_drive.recruitment_title}}</span
+                  >
+                  <div class="row-flex">
+                    <div class="col">
+                      <span class="widget-49-meeting-time">
+                        {% if application.recruitment_drive.status == "Open" %}
+                        <span class="badge rounded-pill bg-success">Open</span>
+                        {% else %}
+                        <span class="badge rounded-pill bg-danger">Closed</span>
+                        {% endif %}
+                      </span>
+                    </div>
+                    <div class="col">
+                      <span class="widget-49-meeting-time"
+                        ><span class="badge rounded-pill bg-success"
+                          >Term : {{ application.recruitment_drive.recruitment_term}}</span
+                        ></span
+                      >
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class = "widget-49-meeting-points">
+                  <li style = "list-style-type:none;">Last Updated : {{application.date_of_application|date:'d M Y, H:i A'}}</li>
+                  <li style = "list-style-type:none;">
+                    Application Status : 
+                    {% if application.status == "Application under Review" %}
+                      <span class="badge rounded-pill bg-primary">Under Review</span>
+                    {% elif application.status == "Shortlisted for Interview" %}
+                      <span class="badge rounded-pill bg-info">Shortlisted for Interview</span>
+                    {% elif application.status == "Accepted" %}
+                    <span class="badge rounded-pill bg-success">Accepted</span>
+                    {% elif application.status == "Mentorship" %}
+                    <span class="badge rounded-pill bg-success">Mentorship</span>
+                    {% else %}
+                    <span class="badge rounded-pill bg-danger">Rejected</span>
+                    {% endif %}
+                  </li>
+                </div>
+                <div class = "d-inline-block py-2" style = {"margin:5px;"}>
+                  {% if application.recruitment_drive.end_date_time|date:"YmdHis" < now|date:"YmdHis" and application.recruitment_drive.status == "Open" %}
+                  <a href = "#" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                  {% endif %}
+                  <a href = "#" style = "text-decoration:none;color:black;"><i class="fa-solid fa-up-right-from-square"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
   <h1 class="text-center">Recruitment Drives</h1>
   <hr />
   <div class="row">
@@ -66,5 +138,6 @@
     <h1 class="text-center">No Drives Found !!!</h1>
     {% endif %}
   </div>
+  
 </div>
 {% endblock %}
