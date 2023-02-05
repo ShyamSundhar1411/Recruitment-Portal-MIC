@@ -5,7 +5,7 @@ from .aiding_functions import *
 from django.views import generic
 from django.contrib import messages
 from django.http import Http404, JsonResponse
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 
@@ -16,11 +16,16 @@ class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.U
     fields = ["recruitment_title","recruitment_term","department","status","start_date_time","end_date_time"]
     template_name = "services/UpdateRecruitmentDrive.html"
     context_object_name = "recruitment_drive"
+    
     def get_object(self):
         recruitment_drive = super(RecruitmentDriveUpdateView,self).get_object()
         if not is_authorized(self.request.user) :
             raise Http404
         return recruitment_drive
+    def get_success_url(self):
+        pk = self.kwargs["pk"]
+        messages.success(self.request,'Updated Successfully')
+        return reverse("update_recruitment", kwargs={"pk": pk})
 #Funciton Based Views
 def home(request):
     user_status = is_authorized(request.user)

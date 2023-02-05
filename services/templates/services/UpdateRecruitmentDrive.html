@@ -1,8 +1,97 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load static %}
 {% load crispy_forms_tags %}
-<div class = "container">
-    <h1 class = "text-center">{{recruitment_drive.recruitment_title}}</h1>
-    {{form|crispy}}
+<div class="container">
+    <div class = "row">
+        <div class="col-lg-4 col-md-6">
+            <h4 class = "text-center">Form Preview</h4>
+            <hr/>
+            <div class="card card-margin border border-dark">
+              <div class="card-body pt-4">
+                <div class="widget-49">
+                  <div class="widget-49-title-wrapper">
+                    <div class="widget-49-date-primary">
+                      <span class="widget-49-date-day"
+                        ><img
+                          src="{% static 'candidate.png' %}"
+                          height="45px;"
+                          width="45px;"
+                      /></span>
+                    </div>
+                    <div class="widget-49-meeting-info">
+                      <span class="widget-49-pro-title"
+                        >{{recruitment_drive.recruitment_title}}</span
+                      >
+                      <div class="row-flex">
+                        <div class="col">
+                          <span class="widget-49-meeting-time">
+                            {% if recruitment_drive.status == "Open" %}
+                            <span class="badge rounded-pill bg-success">Open</span>
+                            {% else %}
+                            <span class="badge rounded-pill bg-danger">Closed</span>
+                            {% endif %}
+                          </span>
+                        </div>
+                        <div class="col">
+                          <span class="widget-49-meeting-time"
+                            ><span class="badge rounded-pill bg-success"
+                              >Term : {{ recruitment_drive.recruitment_term}}</span
+                            ></span
+                          >
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "widget-49-meeting-points">
+                      <li style = "list-style-type:none;">Department : {{recruitment_drive.department}}</li>
+                      <li style = "list-style-type:none;"><i class="fa-solid fa-calendar-days"></i>  {{recruitment_drive.start_date_time|date:'dS M Y'}} - {{recruitment_drive.end_date_time|date:'dS M Y'}} </li>
+                      <li style = "list-style-type:none;">Closes By : {{recruitment_drive.end_date_time|date:'dS M Y, h:i A'}}</li>
+                    </div>
+                    <div class = "d-inline-block py-2" style = {"margin:5px;"}>
+                        <a href = "#" class = "btn btn-success disabled"><i class="fa-solid fa-scroll" ></i> Apply</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+        <div class="col-md-8 col-sm-7">
+            <h4 class = "text-center">Update Configs</h4>
+            <hr/>
+            <form method = 'POST' enctype = 'multipart/form-data'>
+                {% csrf_token %}
+                <div class="card card-body border border-dark">
+                    <div class="row form-row">
+                        <div class = "col">
+                            {{form.recruitment_title|as_crispy_field}}
+                        </div>
+                        <div class="col">
+                            {{form.recruitment_term|as_crispy_field}}
+                        </div>
+                    </div>
+                    <div class="row form-row">
+                        <div class = "col">
+                            {{form.department|as_crispy_field}}
+                        </div>
+                        <div class="col">
+                            {{form.status|as_crispy_field}}
+                        </div>
+                    </div>
+                    <div class="row form-row">
+                        <div class = "col">
+                            {{form.start_date_time|as_crispy_field}}
+                        </div>
+                        <div class = "col">
+                            {{form.end_date_time|as_crispy_field}}
+                        </div>
+                        
+                    </div>
+                    <div class = "d-inline-block py-3">
+                        <button type = "submit" class = "margin-bottom btn btn-primary me-2 py-1">Update</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+</div>
 </div>
 {% endblock %}
