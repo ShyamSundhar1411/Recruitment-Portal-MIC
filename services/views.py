@@ -35,6 +35,9 @@ def home(request):
 @login_required
 def submit_application(request,slug):
     recruitment_drive = RecruitmentDrive.objects.get(slug = slug)
+    if Application.objects.filter(user = request.user,recruitment_drive = recruitment_drive).exists:
+        messages.info(request,"You have already queued an application for this recruitment drive. Kindly Wait till your application is reviewed.")
+        return redirect("home")
     if request.method == "POST":
         recruitment_form = RecruitmentForm(request.POST)
         if recruitment_form.is_valid():
