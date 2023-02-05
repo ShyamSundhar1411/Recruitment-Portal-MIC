@@ -42,8 +42,15 @@
                 </div>
               </div>
               <div class = "widget-49-meeting-points">
+                <li style = "list-style-type:none;">Department : {{drive.department}}</li>
                 <li style = "list-style-type:none;"><i class="fa-solid fa-calendar-days"></i>  {{drive.start_date_time|date:'dS M Y'}} - {{drive.end_date_time|date:'dS M Y'}} </li>
                 <li style = "list-style-type:none;">Closes By : {{drive.end_date_time|date:'dS M Y, h:i A'}}</li>
+              </div>
+              <div class = "d-inline-block py-2" style = {"margin:5px;"}>
+                {% if Status %}
+                  <a href = "#" class = "btn btn-primary"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                {% endif %}
+                  <a href = "#" class = "btn btn-success"><i class="fa-solid fa-scroll"></i> Apply</a>
               </div>
             </div>
           </div>

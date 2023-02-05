@@ -9,6 +9,19 @@ DEPARTMENT_CHOICES = [
     ("Development - Web","Development - Web"),
     ("Development - App","Development - App"),
 ]
+
+DRIVE_DEPARTMENT_CHOICES = [
+    ("Design and Content","Design and Content"),
+    ("UI/UX","UI/UX"),
+    ("Management","Management"),
+    ("Finance","Finance"),
+    ("Sponsership","Sponsership"),
+    ("Cybersecurity","Cybersecurity"),
+    ("Competitive Programming","Competitive Programming"),
+    ("Development - Web","Development - Web"),
+    ("Development - App","Development - App"),
+    ("All","All")
+]
 ROLE_CHOICES = [
     ("Applicant","Applicant"),
     ("Head/Lead","Head/Lead"),

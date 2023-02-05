@@ -20,3 +20,9 @@ def email_checker(email):
 def email_parser(email):
     email_splitted = email.split('@')
     return email_splitted[-1]
+
+def is_authorized(user):
+    status = False
+    if user.profile.role == "President" or user.profile.role == "Vice President" or user.profile.role == "Head/Lead":
+        status = True
+    return status

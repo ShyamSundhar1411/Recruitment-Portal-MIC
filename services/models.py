@@ -23,9 +23,10 @@ class RecruitmentDrive(models.Model):
     end_date_time = models.DateTimeField()
     recruitment_term = models.CharField(max_length = 500)
     status = models.CharField(max_length = 100,choices = RECRUITMENT_STATUS_CHOICES)
+    department = models.CharField(max_length = 100,choices = DRIVE_DEPARTMENT_CHOICES,default = "All")
     
     def __str__(self):
-        return self.recruitment_title+'-'+self.recruitment_term
+        return self.recruitment_title+'-'+self.department
 class Application(models.Model):
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     recruitment_drive = models.ForeignKey(RecruitmentDrive,on_delete=models.CASCADE)
