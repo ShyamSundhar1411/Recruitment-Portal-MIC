@@ -17,8 +17,19 @@ class ApplicationFilter(django_filters.FilterSet):
             },
         )
     )
-    tags = django_filters.ModelMultipleChoiceFilter(label = "skills",queryset = Tag.objects.all())
+    tags = django_filters.ModelMultipleChoiceFilter(label = "Skills",queryset = Tag.objects.all(),
+        widget = autocomplete.ModelSelect2Multiple(url='tags_autocomplete',
+            attrs={
+            # Set some placeholder
+            # Only trigger autocompletion after 2 characters have been typed
+            'data-minimum-input-length': 2,
+            'data-width': '100%',
+            },
+        ),
+    )
     department_preferences = django_filters.MultipleChoiceFilter(choices = DEPARTMENT_CHOICES)
+    date_of_application = DateRangeFilter()
+    recruitment_drive = django_filters.ModelChoiceFilter(queryset = RecruitmentDrive.objects.all()),
     class Meta:
         model = Application
-        fields = ['tags','status','department_preferences']
+        fields = ['tags','status','department_preferences','date_of_application',"recruitment_drive"]

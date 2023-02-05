@@ -4,7 +4,7 @@ from .mixins import *
 from .filters import *
 import datetime
 from dal import autocomplete
-
+from taggit.models import Tag
 from .aiding_functions import *
 from django.views import generic
 from django.contrib import messages
@@ -24,6 +24,14 @@ class UsersAutoComplete(autocomplete.Select2QuerySetView):
         if self.q:
             qs = qs.filter(username__icontains=self.q)
         return qs
+class TagsAutoComplete(autocomplete.Select2QuerySetView):
+    
+    def get_queryset(self):
+        qs = Tag.objects.all()
+        if self.q:
+            qs = qs.filter(name__icontains=self.q)
+        return qs
+
 class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.UpdateView):
     model = RecruitmentDrive
     fields = ["recruitment_title","recruitment_term","department","status","start_date_time","end_date_time"]

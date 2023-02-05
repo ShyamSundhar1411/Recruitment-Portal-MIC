@@ -1,9 +1,37 @@
 {% extends 'base.html' %}
 {% block content %}
+{% load crispy_forms_tags %}
 <div class = "container">
     <h1 class = "text-center">Manage Applications</h1>
     <hr/>
-    {{filterer.form.media}}
-    {{filterer.form}}
+    <div class = "container py-2" style = "margin-bottom:20px;">
+        {{filterer.form.media}}
+        <form method = "GET">
+            <div class = "row">
+                <div class = "col">
+                    {{filterer.form.user|as_crispy_field}}
+                </div>
+                <div class = "col">
+                    {{filterer.form.date_of_application|as_crispy_field}}
+                </div>
+                
+            </div>
+            <div class = "row">
+                <div class = "col">
+                    {{filterer.form.status|as_crispy_field}}
+                </div>
+                <div class = "col">
+                    {{filterer.form.tags.label}}
+                    {{filterer.form.tags}}
+                </div>
+                <div class = "col">
+                    {{filterer.form.department_preferences|as_crispy_field}}
+                </div>
+            </div>
+            <div class = "d-inline-block py-2" style = "margin-bottom:15px;">
+                <button type = "submit" class = "btn btn-primary"><i class="fa-solid fa-filter"></i> Filter</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
