@@ -6,9 +6,10 @@ urlpatterns = [
     path('profile/<slug:slug>/view',views.profile,name = "profile"),
     
     #Recruitment Drive
-    path('update/<int:pk>/recruitment/drive',views.RecruitmentDriveUpdateView.as_view(),name = "update_recruitment"),
-    path('delete/<int:pk>/recruitment/drive/<slug:slug>',views.delete_recruitment_drive,name = "delete_recruitment_drive"),
+    path('update/<int:pk>/recruitment/drive/',views.RecruitmentDriveUpdateView.as_view(),name = "update_recruitment"),
+    path('delete/<int:pk>/recruitment/drive/<slug:slug>/',views.delete_recruitment_drive,name = "delete_recruitment_drive"),
     
     #Application
-    path('application/<slug:slug>/recruitment/term',views.submit_application,name = "submit_application"),
+    path('application/<slug:slug>/recruitment/term/',views.submit_application,name = "submit_application"),
+    path('application/<slug:slug>/preview/',views.preview_application,name = "preview_application"),
 ]

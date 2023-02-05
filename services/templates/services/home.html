@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %} {% load static %}
+{% load custom_tags %}
 <div class="container">
-  {% if Applications%}
+  {% if Applications %}
     <h1 class = "text-center">Your Applications</h1>
     <hr/>
     <div class = "row">
@@ -59,14 +60,55 @@
                     {% endif %}
                   </li>
                 </div>
-                <div class = "d-inline-block py-2" style = {"margin:5px;"}>
-                  {% if application.recruitment_drive.end_date_time|date:"YmdHis" < now|date:"YmdHis" and application.recruitment_drive.status == "Open" %}
-                  <a href = "#" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                  {% endif %}
-                  <a href = "#" style = "text-decoration:none;color:black;"><i class="fa-solid fa-up-right-from-square"></i></a>
-                </div>
               </div>
+              <div class = "widget-49-meeting-points">
+                <div style="margin-top: 10px; margin-bottom: 10px">
+                  <div class="accordion accordion-flush" id="accordionFlushExample{{application.slug}}">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-headingOne{{application.slug}}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne{{application.slug}}" aria-expanded="false" aria-controls="flush-collapseOne{{application.slug}}">
+                          Skills and Preferences
+                        </button>
+                      </h2>
+                      <div id="flush-collapseOne{{application.slug}}" class="accordion-collapse collapse" aria-labelledby="flush-headingOne{{application.slug}}" data-bs-parent="#accordionFlushExample{{application.slug}}">
+                        <div class="accordion-body">
+                          <p style = "margin-bottom:2px;">Skills</p>{% for tag in application.tags.all %}
+                          <div class="d-inline-block" style="margin-bottom: 5px">
+                            <span class="badge bg-success">{{tag}}</span>
+                          </div>
+
+                          {% endfor %}
+                        
+                          <p style = "margin-bottom:2px;">Department Preferences</p>
+                          {% for department in application.department_preferences %}
+                          <div class="d-inline-block" style="margin-bottom: 5px">
+                            <span class="badge bg-success">{{department}}</span>
+                          </div>
+                          {% endfor %}
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="flush-headingTwo{{application.slug}}">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo{{application.slug}}" aria-expanded="false" aria-controls="flush-collapseTwo{{application.slug}}">
+                          Question Responses
+                        </button>
+                      </h2>
+                      <div id="flush-collapseTwo{{application.slug}}" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo{{application.slug}}" data-bs-parent="#accordionFlushExample{{application.slug}}">
+                        <div class="accordion-body">
+                          <p style = "margin-bottom:2px;">Question One</p>
+                          <p>{{application.question_one|truncatechars:50}}</p>
+                          {% if application.question_two %}
+                          <p style = "margin-bottom:2px;">Question two</p>
+                          <p>{{application.question_two|truncatechars:50}}</p>
+                          {% endif %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>  
             </div>
+            
           </div>
         </div>
       {% endfor %}

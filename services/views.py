@@ -26,6 +26,7 @@ class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.U
         pk = self.kwargs["pk"]
         messages.success(self.request,'Updated Successfully')
         return reverse("update_recruitment", kwargs={"pk": pk})
+
 #Funciton Based Views
 
 def home(request):
@@ -65,6 +66,10 @@ def delete_recruitment_drive(request,pk,slug):
     else:
         messages.error(request,"Error Processing Request")
         return redirect("home")
+@login_required
+def preview_application(request,slug):
+    application = Application.objects.get(slug = slug,user = request.user)
+    return render(request,"services/preview_application.html",{"application":application})
 @login_required
 def profile(request,slug):
     if request.method == 'POST':
