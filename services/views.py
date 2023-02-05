@@ -1,7 +1,10 @@
 from .models import *
 from .forms import *
 from .mixins import *
+from .filters import *
 import datetime
+from dal import autocomplete
+
 from .aiding_functions import *
 from django.views import generic
 from django.contrib import messages
@@ -12,6 +15,15 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 
 
 # Create your views here.
+#Class Based Views
+# AutoComplete Class Based View
+class UsersAutoComplete(autocomplete.Select2QuerySetView):
+    
+    def get_queryset(self):
+        qs = User.objects.all()
+        if self.q:
+            qs = qs.filter(username__icontains=self.q)
+        return qs
 class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.UpdateView):
     model = RecruitmentDrive
     fields = ["recruitment_title","recruitment_term","department","status","start_date_time","end_date_time"]
@@ -72,6 +84,11 @@ def submit_application(request,slug):
             return render(request,"services/recruitment_application.html",{"form":recruitment_form,"hostride_form_errors":recruitment_form.errors,"drive":recruitment_drive})
     else:
         return render(request,"services/recruitment_application.html",{"form":RecruitmentForm(),"drive":recruitment_drive})
+@login_required
+@user_passes_test(lambda user:is_authorized(user))
+def view_all_applications(request):
+    applications = ApplicationFilter(request.GET,queryset = Application.objects.all())
+    return render(request,'services/view_all_applications.html',{"filterer":applications})
 @login_required
 @user_passes_test(lambda user:is_authorized(user))
 def delete_recruitment_drive(request,pk,slug):

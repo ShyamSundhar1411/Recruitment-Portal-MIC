@@ -46,7 +46,7 @@
               <ul class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="{% url 'profile' request.user.profile.slug %}"><i class="far fa-user-circle"></i> My Account</a></li>
                 {% if not user.profile.role == "Applicant" or user.profile.role == "Unauthorized" %}
-                <li><a class="dropdown-item" href="#"><i class="fas fa-book-open"></i> View All Applications</a></li>
+                <li><a class="dropdown-item" href="{% url 'view_all_applications' %}"><i class="fas fa-book-open"></i> View All Applications</a></li>
                 {% endif %}
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="#">Logout <i class="fas fa-sign-out-alt"></i></a></li>
