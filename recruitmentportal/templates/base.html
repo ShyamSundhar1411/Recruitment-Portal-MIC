@@ -66,10 +66,18 @@
     <!-- Template Main CSS File -->
     <link href="{% static 'assets/css/main.css' %}" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
-    <title>MIC Recruitment Portal</title>
+    <title>MIC Recruitment System</title>
     <link rel="icon" type="image/x-icon" href="{% static 'mic-favicon.ico' %}">
     <link rel="shortcut icon" href="{% static 'mic-favicon.ico' %}" type="image/x-icon" />
   </head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9FWJEKG02X"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9FWJEKG02X');
+</script>
   <body>
     <header id="header">
         <div class = "container">
@@ -80,7 +88,7 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navcol-1">
+                <div class="collapse navbar-collapse" id="navbarColor01">
                   <ul class="navbar-nav ms-auto">
                   {% if user.is_authenticated %}
                   <li class="nav-item dropdown">
