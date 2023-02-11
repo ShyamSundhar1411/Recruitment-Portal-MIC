@@ -5,7 +5,7 @@ from recruitmentportal.settings import DEFAULT_FROM_EMAIL as me
 @shared_task(bind=True)
 def application_confirmation_mail(self,user):
     email = user.email
-    subject = 'Subject: Confirmation of Submitted Application'
+    subject = 'Confirmation of Submitted Application'
     content = ''' Hi {},
 
 This email is to confirm that the we have received your application for the Microsoft Innovations Club. We appreciate your interest and enthusiasm for the program, and we are impressed by your passion for technology.

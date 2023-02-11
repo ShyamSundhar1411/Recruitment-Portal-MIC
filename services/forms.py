@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from phonenumber_field.formfields import PhoneNumberField
 from taggit.forms import *
 class RecruitmentForm(forms.ModelForm):
-    question_one = forms.CharField(label = "Why do you want to apply for MIC ?",widget = forms.Textarea)
+    question_one = forms.CharField(label = "Why do you want to apply for MIC ?",help_text = 'Include Previous Works as well',widget = forms.Textarea)
     question_two = forms.CharField(label = "How did you hear about MIC ?",required = False,widget = forms.Textarea)
     tags = TagField(label = "Skills",help_text = "Add Skills as comma seperated Values")
     class Meta:

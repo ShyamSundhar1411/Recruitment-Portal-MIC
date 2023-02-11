@@ -39,12 +39,12 @@ class Application(models.Model):
     linkedin_url = models.URLField(max_length = 200)
     instagram_id = models.CharField(max_length = 100)
     lookup_skills = models.CharField(max_length = 400)
-    question_one = models.TextField(max_length = 400)
-    question_two = models.TextField(max_length = 400,blank = True)
+    question_one = models.TextField(max_length = 1000)
+    question_two = models.TextField(max_length = 1000,blank = True)
     status = models.CharField(max_length = 100,choices = STATUS_CHOICES)
     tags = TaggableManager()
     slug = models.SlugField(blank = True)
-    date_of_application = models.DateTimeField(auto_now_add = True)
+    date_of_application = models.DateTimeField(auto_now = True)
     def save(self,*args,**kwargs):
         if not self.slug:
             self.slug = shortuuid.ShortUUID().random(length=10)

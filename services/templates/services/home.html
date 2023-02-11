@@ -27,6 +27,7 @@
                     <div class="col">
                       <span class="widget-49-meeting-time">
                         {% if application.recruitment_drive.status == "Open" %}
+                        {% now "Y-m-dHi" as todays_date %}
                         <span class="badge rounded-pill bg-success">Open</span>
                         {% else %}
                         <span class="badge rounded-pill bg-danger">Closed</span>
@@ -146,8 +147,14 @@
                 <div class="row-flex">
                   <div class="col">
                     <span class="widget-49-meeting-time">
+                      
                       {% if drive.status == "Open" %}
-                      <span class="badge rounded-pill bg-success">Open</span>
+                      {% now "Y-m-dHi" as todays_date %}
+                        {% if drive.start_date_time|date:'Y-m-dHi' > todays_date %}
+                          <span class="badge rounded-pill bg-info">Opens Soon</span>
+                        {% else %}
+                          <span class="badge rounded-pill bg-success">Open</span>
+                        {% endif %}
                       {% else %}
                       <span class="badge rounded-pill bg-danger">Closed</span>
                       {% endif %}
@@ -166,6 +173,10 @@
               <div class = "widget-49-meeting-points">
                 <li style = "list-style-type:none;">Department : {{drive.department}}</li>
                 <li style = "list-style-type:none;"><i class="fa-solid fa-calendar-days"></i>  {{drive.start_date_time|date:'dS M Y'}} - {{drive.end_date_time|date:'dS M Y'}} </li>
+                {% now "Y-m-dHi" as todays_date %}
+                  {% if drive.start_date_time|date:'Y-m-dHi' > todays_date %}
+                    <li style = "list-style-type:none;">Opens By : {{drive.start_date_time|date:'dS M Y, h:i A'}}</li>
+                {% endif %}
                 <li style = "list-style-type:none;">Closes By : {{drive.end_date_time|date:'dS M Y, h:i A'}}</li>
               </div>
               <div class = "d-inline-block py-2" style = {"margin:5px;"}>
@@ -173,9 +184,10 @@
                   
                   <a href = "{% url 'update_recruitment' drive.id %}" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
                 {% endif %}
-                  {% if drive.status == "Closed" %}
+                  {% now "Y-m-dHi" as todays_date %}
+                  {% if drive.status == "Closed" or drive.start_date_time|date:'Y-m-dHi' > todays_date %}
                     <a href = "{% url 'submit_application' drive.slug %}" class = "btn btn-success me-2 py-1 disabled" style = "margin-bottom:4px;"><i class="fa-solid fa-scroll"></i> Apply</a>
-                  {% else %}
+                  {% else  %}
                   <a href = "{% url 'submit_application' drive.slug %}" class = "btn btn-success me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-scroll"></i> Apply</a>
                   {% endif %}
               </div>

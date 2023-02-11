@@ -11,6 +11,7 @@ from .aiding_functions import *
 from django.views import generic
 from django.contrib import messages
 from django.http import Http404, JsonResponse,HttpResponse
+from django.urls import reverse_lazy
 from django.shortcuts import render,redirect,reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required,user_passes_test
@@ -51,19 +52,23 @@ class RecruitmentDriveUpdateView(LoginRequiredMixin,AuthorizationMixin,generic.U
         return reverse("update_recruitment", kwargs={"pk": pk})
 class ApplicationUpdateView(LoginRequiredMixin,generic.UpdateView):
     model = Application
-    fields = ["department_preferences","tags","linkedin_url","question_one","question_two"]
+    form_class = RecruitmentForm
     template_name = "services/UpdateApplication.html"
     context_object_name = "application"
-    
+    success_url = reverse_lazy('home')
+    def form_valid(self,form):
+        form.instance.lookup_skills = list_to_string_converter(form.cleaned_data['tags'])
+        super(ApplicationUpdateView,self).form_valid(form)
+        messages.success(self.request,'Application Updated Successfully')
+        return redirect('home')
     def get_object(self):
         application_form = super(ApplicationUpdateView,self).get_object()
+        if application_form.recruitment_drive.status == "Closed":
+            messages.error(self.request,"The following application has been locked for changes.")
+            raise Http404
         if self.request.user == application_form.user:
             return application_form
         raise Http404
-    def get_success_url(self):
-        slug = self.kwargs['slug']
-        messages.success(self.request,'Updated Successfully')
-        return reverse("update_application", kwargs={"slug": slug})
 #Funciton Based Views
 def landing_page(request):
     if request.user.is_authenticated:

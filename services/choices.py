@@ -8,6 +8,7 @@ DEPARTMENT_CHOICES = [
     ("Competitive Programming","Competitive Programming"),
     ("Development - Web","Development - Web"),
     ("Development - App","Development - App"),
+    ("AI/ML","AI/ML"),
 ]
 
 DRIVE_DEPARTMENT_CHOICES = [
@@ -20,6 +21,7 @@ DRIVE_DEPARTMENT_CHOICES = [
     ("Competitive Programming","Competitive Programming"),
     ("Development - Web","Development - Web"),
     ("Development - App","Development - App"),
+    ("AI/ML","AI/ML"),
     ("All","All")
 ]
 ROLE_CHOICES = [
