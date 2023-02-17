@@ -3,12 +3,13 @@ DEPARTMENT_CHOICES = [
     ("UI/UX","UI/UX"),
     ("Management","Management"),
     ("Finance","Finance"),
-    ("Sponsership","Sponsership"),
+    ("Sponsorship","Sponsorship"),
     ("Cybersecurity","Cybersecurity"),
     ("Competitive Programming","Competitive Programming"),
     ("Development - Web","Development - Web"),
     ("Development - App","Development - App"),
     ("AI/ML","AI/ML"),
+    ("Editing","Editing"),
 ]
 
 DRIVE_DEPARTMENT_CHOICES = [
@@ -16,13 +17,14 @@ DRIVE_DEPARTMENT_CHOICES = [
     ("UI/UX","UI/UX"),
     ("Management","Management"),
     ("Finance","Finance"),
-    ("Sponsership","Sponsership"),
+    ("Sponsorship","Sponsorship"),
     ("Cybersecurity","Cybersecurity"),
     ("Competitive Programming","Competitive Programming"),
     ("Development - Web","Development - Web"),
     ("Development - App","Development - App"),
     ("AI/ML","AI/ML"),
-    ("All","All")
+    ("Editing","Editing"),
+    ("All","All"),
 ]
 ROLE_CHOICES = [
     ("Applicant","Applicant"),

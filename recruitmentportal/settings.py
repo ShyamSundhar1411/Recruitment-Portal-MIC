@@ -203,7 +203,8 @@ DEFAULT_FROM_EMAIL = 'Technical Team<noreply@micvitc.com>'
 #Celery
 #Storages
 CSRF_TRUSTED_ORIGINS = [
-    'https://micrecruitmentsystem.azurewebsites.net'
+    'https://micrecruitmentsystem.azurewebsites.net',
+    'https://micrecruitmentssystem.azurewebsites.net',
 ]
 # CELERY_CACHE_BACKEND = 'default'
 # CELERY_BROKER_URL = 'redis://localhost:6379'
