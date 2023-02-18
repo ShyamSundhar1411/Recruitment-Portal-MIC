@@ -53,7 +53,6 @@ This is a great chance to learn from others, expand your network, and gain insig
 Let us know if you're interested and we'll send more information.
 
 Best,
-[Technical Team Name]
 Microsoft Innovations Club Technical Team
     '''.format(user.username)
     message = EmailMessage(subject,content,me,[email])
