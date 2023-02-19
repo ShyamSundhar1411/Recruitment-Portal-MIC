@@ -2,28 +2,26 @@ DEPARTMENT_CHOICES = [
     ("Design and Content","Design and Content"),
     ("UI/UX","UI/UX"),
     ("Management","Management"),
-    ("Finance","Finance"),
     ("Sponsorship","Sponsorship"),
     ("Cybersecurity","Cybersecurity"),
     ("Competitive Programming","Competitive Programming"),
     ("Development - Web","Development - Web"),
     ("Development - App","Development - App"),
     ("AI/ML","AI/ML"),
-    ("Editing","Editing"),
+    ("Video Editing and Photography","Video Editing and Photography"),
 ]
 
 DRIVE_DEPARTMENT_CHOICES = [
     ("Design and Content","Design and Content"),
     ("UI/UX","UI/UX"),
     ("Management","Management"),
-    ("Finance","Finance"),
     ("Sponsorship","Sponsorship"),
     ("Cybersecurity","Cybersecurity"),
     ("Competitive Programming","Competitive Programming"),
     ("Development - Web","Development - Web"),
     ("Development - App","Development - App"),
     ("AI/ML","AI/ML"),
-    ("Editing","Editing"),
+    ("Video Editing and Photography","Video Editing and Photography"),
     ("All","All"),
 ]
 ROLE_CHOICES = [
