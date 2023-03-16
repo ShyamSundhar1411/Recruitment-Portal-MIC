@@ -187,4 +187,4 @@ def update_application_status(request,slug,pk):
         else:
             pass
         messages.success(request,"Successfully Updated Status of application {}".format(application.slug))
-        return redirect("view_all_applications")
+        return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
