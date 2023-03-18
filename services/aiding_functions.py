@@ -34,3 +34,4 @@ def list_to_string_converter(given_list):
         else:
             string+=given_list[i]+','
     return string
+

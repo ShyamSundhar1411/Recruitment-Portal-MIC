@@ -15,6 +15,9 @@
                 <div class = "col">
                     {{filterer.form.date_of_application|as_crispy_field}}
                 </div>
+                <div class = "col">
+                  {{filterer.form.recruitment_drive|as_crispy_field}}
+              </div>
             </div>
             <div class = "row">
                 <div class = "col">
@@ -29,8 +32,9 @@
                 </div>
             </div>
             <div class = "d-inline-block py-2" style = "margin-bottom:15px;">
-                <button type = "submit" class = "btn btn-primary" style = "margin-bottom:15px;"><i class="fa-solid fa-filter" ></i> Filter</button>
-                <a class = "btn btn-success" href = "{% url 'generate_csv' %}" style = "margin-bottom:15px;"><i class="fa-solid fa-file-excel"></i> Generate Report</a>
+                <button type = "submit" class = "btn btn-outline-primary" style = "margin-bottom:15px;"><i class="fa-solid fa-filter" ></i> Filter</button>
+                <a class = "btn btn-outline-success" href = "{% url 'generate_csv' %}" style = "margin-bottom:15px;"><i class="fa-solid fa-file-excel"></i> Generate Report</a>
+                <a href = "{% url 'send_mass_mail' %}" class = "btn btn-outline-info" style = "margin-bottom:15px;" data-bss-hover-animate="pulse" style = "margin-bottom:10px;margin-left:10px;"><i class="fa-solid fa-envelopes-bulk"></i> Send Mails</a>
             </div>
         </form>
     </div>

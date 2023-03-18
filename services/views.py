@@ -188,3 +188,27 @@ def update_application_status(request,slug,pk):
             pass
         messages.success(request,"Successfully Updated Status of application {}".format(application.slug))
         return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
+@login_required
+@user_passes_test(lambda user:is_authorized(user))
+def send_mass_mail(request):
+    if request.method == "POST":
+        mass_mail_form = MassMailForm(request.POST,request.FILES)
+        if mass_mail_form.is_valid():
+            criteria = str(mass_mail_form.cleaned_data['to'])
+            subject = str(mass_mail_form.cleaned_data['subject'])
+            content = mass_mail_form.cleaned_data['content']
+            recruitment_drive = mass_mail_form.cleaned_data['recruitment_drive']
+            emails= Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive).values_list('user__email',flat = True)
+            if emails:
+                trigger_mass_mail(emails,content,subject)
+                messages.success(request,'Mails Triggered Successfully')
+            else:
+                messages.info(request, "No candidates with required criteria found so abandining the trigger")
+                return redirect("send_mass_mail")
+            return redirect('send_mass_mail')
+        else:
+            messages.error(request,"Error Processing Mail")
+            return render(request,'services/mass_mail.html',{'form':mass_mail_form})
+    else:
+        return render(request,'services/mass_mail.html',{'form':MassMailForm()})
+        

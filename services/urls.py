@@ -17,5 +17,6 @@ urlpatterns = [
     path('application/<slug:slug>/edit/',views.ApplicationUpdateView.as_view(),name = "update_application"),
     path('mic/view/applications/all',views.view_all_applications,name = "view_all_applications"),
     path('export/application/csv',views.generate_csv,name = "generate_csv"),
-    path('update/<slug:slug>/application/<int:pk>/status',views.update_application_status,name = "update_application_status")
+    path('update/<slug:slug>/application/<int:pk>/status',views.update_application_status,name = "update_application_status"),
+    path('application/send_mass_mail',views.send_mass_mail,name = "send_mass_mail"),
 ]

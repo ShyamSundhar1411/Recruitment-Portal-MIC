@@ -1,6 +1,8 @@
 from celery import shared_task
-from django.core.mail import EmailMessage,send_mail
+
+from django.core.mail import EmailMessage,send_mail,EmailMultiAlternatives
 from recruitmentportal.settings import DEFAULT_FROM_EMAIL as me
+
 
 @shared_task(bind=True)
 def application_confirmation_mail(self,user):
@@ -76,4 +78,12 @@ Microsoft Innovations Club Technical Team
     '''.format(user.username)
     message = EmailMessage(subject,content,me,[email])
     message.send()
-    
+@shared_task(bind = True)
+def trigger_mass_mail(self,emails,content,subject):
+    email_list = emails
+    subject = subject
+    content = content
+    plain_content = str(content)
+    message = EmailMultiAlternatives(subject,None,me,email_list)
+    message.attach_alternative(content,'text/html')
+    message.send()

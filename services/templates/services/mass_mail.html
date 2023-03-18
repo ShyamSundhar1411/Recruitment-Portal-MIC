@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
+<div class = "container">
+    <h3 class = "text-center">Mailer</h3>
+    <hr/>
+    <form method = "POST" enctype = "multipart/form-data">
+        {% csrf_token %}
+        {{form.media}}
+        {{form|crispy}}
+        <div class = "d-inline-block py-2" style = "margin-bottom:10px;">
+            <button class = "btn btn-outline-success rounded"><i class="fa-solid fa-envelopes-bulk"></i> Trigger Mail</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
