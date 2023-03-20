@@ -198,7 +198,11 @@ def send_mass_mail(request):
             subject = str(mass_mail_form.cleaned_data['subject'])
             content = mass_mail_form.cleaned_data['content']
             recruitment_drive = mass_mail_form.cleaned_data['recruitment_drive']
-            emails= Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive).values_list('user__email',flat = True)
+            department_choice = mass_mail_form.cleaned_data['department']
+            if department_choice == "All":
+                emails= Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive).values_list('user__email',flat = True)
+            else:
+                emails = Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive,department_preferences__icontains = department_choice).values_list('user__email',flat = True)
             if emails:
                 trigger_mass_mail(emails,content,subject)
                 messages.success(request,'Mails Triggered Successfully')

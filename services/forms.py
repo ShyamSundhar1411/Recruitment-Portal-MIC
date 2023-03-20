@@ -37,5 +37,6 @@ class MassMailForm(forms.Form):
     subject = forms.CharField(required = True)
     to = forms.ChoiceField(choices = STATUS_CHOICES,label = "Receiver Channel")
     recruitment_drive = forms.ModelChoiceField(queryset = RecruitmentDrive.objects.all())
+    department = forms.ChoiceField(choices=DRIVE_DEPARTMENT_CHOICES,required = False)
     content = forms.CharField(widget=TinyMCE(attrs={'cols': 80, 'rows': 30}))
     

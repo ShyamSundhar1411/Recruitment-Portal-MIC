@@ -50,6 +50,7 @@ SCHOOL_CHOICES = [
 ]
 STATUS_CHOICES = [
     ("Application under Review","Application under Review"),
+    ("Shortlisted for Contest","Shortlisted for Contest"),
     ("Shortlisted for Interview","Shortlisted for Interview"),
     ("Accepted","Accepted"),
     ("Mentorship","Mentorship"),
