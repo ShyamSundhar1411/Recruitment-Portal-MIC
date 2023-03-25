@@ -54,6 +54,7 @@
                       <span class="badge rounded-pill bg-info">Shortlisted for Interview</span>
                     {% elif application.status == "Accepted" %}
                     <span class="badge rounded-pill bg-success">Accepted</span>
+                    <span class="badge rounded-pill bg-success">{{application.accepted_department}}</span>
                     {% elif application.status == "Mentorship" %}
                     <span class="badge rounded-pill bg-success">Mentorship</span>
                     {% else %}

@@ -89,7 +89,10 @@
                             {% elif application.status == "Shortlisted for Interview" %}
                               <span class="badge rounded-pill bg-info">Shortlisted for Interview</span>
                             {% elif application.status == "Accepted" %}
-                            <span class="badge rounded-pill bg-success">Accepted</span>
+                            <span class="badge rounded-pill bg-success" >Accepted</span>
+                            <br/>
+                            <br/>
+                            <p>Department: <span class="badge rounded-pill bg-success">{{application.accepted_department}}</span></p>
                             {% elif application.status == "Mentorship" %}
                             <span class="badge rounded-pill bg-success">Mentorship</span>
                             {% else %}
@@ -162,15 +165,24 @@
                     <div class = "d-inline-block py-2">
                       <form method = "POST" action = {% url 'update_application_status' application.slug application.id %}>
                         {% csrf_token %}
-                        <div class="input-group">
-                          <select class="form-select" name = "status_selector" id="inputGroupSelect04{{application.slug}}" aria-label="Example select with button addon">
+                        
+                        <div class="input-group" style = "margin-bottom:10px;">
+                          <select class="form-select" onchange = "check_field_value(`{{application.slug}}`)" name = "status_selector" id="inputGroupSelect04{{application.slug}}" aria-label="Example select with button addon">
                             <option selected>Choose</option>
                             {% for choice in form_choices %}
                             <option value="{{choice}}">{{choice}}</option>
                             {% endfor %}
                           </select>
-                          <button class="btn btn-outline-primary" type="submit">Update Status</button>
                         </div>
+                        <div class= "input-group" style = "margin-bottom:10px;">
+                          <select class="form-select d-none" required id = "department_selector{{application.slug}}" name = "department_selector">
+                            <option selected>Choose Department for acceptance</option>
+                            {% for choice in application.department_preferences %}
+                            <option value="{{choice}}">{{choice}}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                        <button class="btn btn-outline-primary" type="submit">Update Status</button>
                       </form>
                     </div>
                   </div>
@@ -189,4 +201,18 @@
 
     </div>
 </div>
+<script>
+
+  // function that hides/shows field_four based upon field_three value
+  function check_field_value(slug) {
+    var e = document.getElementById("inputGroupSelect04"+slug).value;
+    if(e==="Accepted"){
+      $("#department_selector"+slug).removeClass('d-none');
+      $("#department_selector"+slug).addAttr('required');
+    }
+    else{
+      $("#department_selector"+slug).addClass('d-none');
+    }
+  }
+</script>
 {% endblock %}

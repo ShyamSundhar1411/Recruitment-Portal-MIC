@@ -44,6 +44,7 @@ class Application(models.Model):
     status = models.CharField(max_length = 100,choices = STATUS_CHOICES)
     tags = TaggableManager()
     slug = models.SlugField(blank = True)
+    accepted_department = models.CharField(choices = DEPARTMENT_CHOICES,max_length = 500,null = True,blank=True)
     date_of_application = models.DateTimeField(auto_now = True)
     def save(self,*args,**kwargs):
         if not self.slug:

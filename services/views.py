@@ -115,7 +115,7 @@ def submit_application(request,slug):
 def view_all_applications(request):
     applications = ApplicationFilter(request.GET,queryset = Application.objects.all())
     request.session['query_set'] = [application.id for application in applications.qs]
-    return render(request,'services/view_all_applications.html',{"filterer":applications,"form_choices":FORM_STATUS_CHOICES})
+    return render(request,'services/view_all_applications.html',{"filterer":applications,"form_choices":FORM_STATUS_CHOICES,'department_choices':DEPARTMENT_CHOICES})
 @login_required
 @user_passes_test(lambda user:is_authorized(user))
 def delete_recruitment_drive(request,pk,slug):
@@ -176,12 +176,12 @@ def update_application_status(request,slug,pk):
     application = Application.objects.get(slug = slug,pk = pk)
     if request.method == "POST":
         status = str(request.POST['status_selector'])
+        accepted_department = str(request.POST['department_selector'])
         application.status = status
+        application.accepted_department = accepted_department
         application.save()
         if status == "Shortlisted for Interview":
             shortlist_mail(application.user)
-        elif status == "Accepted":
-            acceptance_mail(application.user)
         elif status == "Mentorship":
             mentorship_mail(application.user)
         else:
@@ -202,7 +202,10 @@ def send_mass_mail(request):
             if department_choice == "All":
                 emails= Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive).values_list('user__email',flat = True)
             else:
-                emails = Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive,department_preferences__icontains = department_choice).values_list('user__email',flat = True)
+                if criteria == "Accepted":
+                    emails = Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive,accepted_department = department_choice).values_list('user__email',flat = True)
+                else:
+                    emails = Application.objects.filter(status = criteria,recruitment_drive = recruitment_drive,department_preferences__icontains = department_choice).values_list('user__email',flat = True)
             if emails:
                 trigger_mass_mail(emails,content,subject)
                 messages.success(request,'Mails Triggered Successfully')
