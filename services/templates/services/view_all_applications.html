@@ -31,6 +31,10 @@
                     {{filterer.form.department_preferences|as_crispy_field}}
                 </div>
             </div>
+            <div class = "row">
+              <div class = "col-4">
+                  {{filterer.form.accepted_department|as_crispy_field}}
+          </div>
             <div class = "d-inline-block py-2" style = "margin-bottom:15px;">
                 <button type = "submit" class = "btn btn-outline-primary" style = "margin-bottom:15px;"><i class="fa-solid fa-filter" ></i> Filter</button>
                 <a class = "btn btn-outline-success" href = "{% url 'generate_csv' %}" style = "margin-bottom:15px;"><i class="fa-solid fa-file-excel"></i> Generate Report</a>

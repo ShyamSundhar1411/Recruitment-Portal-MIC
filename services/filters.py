@@ -32,4 +32,4 @@ class ApplicationFilter(django_filters.FilterSet):
     recruitment_drive = django_filters.ModelChoiceFilter(queryset = RecruitmentDrive.objects.all()),
     class Meta:
         model = Application
-        fields = ['tags','status','department_preferences','date_of_application',"recruitment_drive"]
+        fields = ['tags','status','department_preferences','date_of_application',"recruitment_drive","accepted_department"]
