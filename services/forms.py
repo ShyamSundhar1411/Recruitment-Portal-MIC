@@ -8,6 +8,8 @@ from tinymce.widgets import TinyMCE
 
 class RecruitmentForm(forms.ModelForm):
     question_one = forms.CharField(label = "Why do you want to apply for MIC ?",help_text = 'Include Previous Works as well',widget = forms.Textarea)
+    linkedin_url = forms.CharField(required=False)
+    instagram_id = forms.CharField(required=False)
     question_two = forms.CharField(label = "How did you hear about MIC ?",required = False,widget = forms.Textarea)
     tags = TagField(label = "Skills",help_text = "Add Skills as comma seperated Values")
     class Meta:
