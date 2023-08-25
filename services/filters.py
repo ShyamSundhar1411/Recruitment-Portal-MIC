@@ -5,6 +5,7 @@ from django_filters import ChoiceFilter, DateRangeFilter
 from django.contrib.auth.models import User
 from .models import *
 from taggit.models import Tag
+
 class ApplicationFilter(django_filters.FilterSet):
     user = django_filters.ModelChoiceFilter(queryset = User.objects.all(),
     widget=autocomplete.ModelSelect2(
@@ -29,7 +30,6 @@ class ApplicationFilter(django_filters.FilterSet):
     )
     date_of_application = DateRangeFilter()
     department_preferences = django_filters.CharFilter(lookup_expr="icontains")
-    recruitment_drive = django_filters.ModelChoiceFilter(queryset = RecruitmentDrive.objects.all()),
     class Meta:
         model = Application
-        fields = ['tags','status','department_preferences','date_of_application',"recruitment_drive","accepted_department"]
+        fields = ['tags','status','department_preferences','date_of_application',"accepted_department"]

@@ -10,6 +10,7 @@ from taggit.models import Tag
 from .aiding_functions import *
 from django.views import generic
 from django.contrib import messages
+from django.views.decorators.cache import cache_page
 from django.http import Http404, JsonResponse,HttpResponse
 from django.urls import reverse_lazy
 from django.shortcuts import render,redirect,reverse
@@ -112,9 +113,11 @@ def submit_application(request,slug):
         return render(request,"services/recruitment_application.html",{"form":RecruitmentForm(),"drive":recruitment_drive})
 @login_required
 @user_passes_test(lambda user:is_authorized(user))
-def view_all_applications(request):
-    applications = ApplicationFilter(request.GET,queryset = Application.objects.all())
-    request.session['query_set'] = [application.id for application in applications.qs]
+@cache_page(60*1)
+def view_all_applications(request,slug):
+    recruitment = RecruitmentDrive.objects.get(slug=slug)
+    applications = ApplicationFilter(request.GET,queryset = Application.objects.filter(recruitment_drive=recruitment))
+    request.session['query_set'] = list(applications.qs.values_list('id', flat=True))
     return render(request,'services/view_all_applications.html',{"filterer":applications,"form_choices":FORM_STATUS_CHOICES,'department_choices':DEPARTMENT_CHOICES})
 @login_required
 @user_passes_test(lambda user:is_authorized(user))

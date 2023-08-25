@@ -27,6 +27,7 @@ django-storages = {extras = ["azure"], version = "^1.13.2"}
 psycopg2-binary = "^2.9.5"
 django-ckeditor = "^6.5.1"
 django-tinymce = "^3.6.0"
+django-extensions = "^3.2.3"
 
 [tool.poetry.dev-dependencies]
 
