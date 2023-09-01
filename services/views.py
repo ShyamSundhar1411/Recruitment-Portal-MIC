@@ -113,7 +113,6 @@ def submit_application(request,slug):
         return render(request,"services/recruitment_application.html",{"form":RecruitmentForm(),"drive":recruitment_drive})
 @login_required
 @user_passes_test(lambda user:is_authorized(user))
-@cache_page(60*1)
 def view_all_applications(request,slug):
     recruitment = RecruitmentDrive.objects.get(slug=slug)
     applications = ApplicationFilter(request.GET,queryset = Application.objects.filter(recruitment_drive=recruitment))

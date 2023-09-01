@@ -184,6 +184,7 @@
                 {% if Status %}
                   
                   <a href = "{% url 'update_recruitment' drive.id %}" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
+                  <a href = "{% url 'view_all_applications' drive.slug %}" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> View All Applications</a>
                 {% endif %}
                   {% now "Y-m-dHi" as todays_date %}
                   {% if drive.status == "Closed" or drive.start_date_time|date:'Y-m-dHi' > todays_date %}
@@ -191,7 +192,7 @@
                   {% else  %}
                   <a href = "{% url 'submit_application' drive.slug %}" class = "btn btn-success me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-scroll"></i> Apply</a>
                   {% endif %}
-                  <a href = "{% url 'view_all_applications' drive.slug %}" class = "btn btn-primary me-2 py-1" style = "margin-bottom:4px;"><i class="fa-solid fa-pen-to-square"></i> View All Applications</a>
+                  
               </div>
             </div>
           </div>
