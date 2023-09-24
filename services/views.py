@@ -182,12 +182,6 @@ def update_application_status(request,slug,pk):
         application.status = status
         application.accepted_department = accepted_department
         application.save()
-        if status == "Shortlisted for Interview":
-            shortlist_mail(application.user)
-        elif status == "Mentorship":
-            mentorship_mail(application.user)
-        else:
-            pass
         messages.success(request,"Successfully Updated Status of application {}".format(application.slug))
         return redirect(request.META.get('HTTP_REFERER', 'redirect_if_referer_not_found'))
 @login_required
